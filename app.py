@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -15,16 +15,33 @@ class Expense(db.Model):
     amount = db.Column(db.Float, nullable = False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __init__(self, category, desc, amount):
+        self.category = category
+        self.desc = desc
+        self.amount = float(amount)
+
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
-    if request.method == 'GET':
-        return render_template('index.html')
+    if request.method == 'POST':
+        expense = Expense(request.form['category'], request.form['desc'],request.form['amount'])
+        db.session.add(expense)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    allexpense = Expense.query.all()
+    for expense in allexpense:
+        expense.date_added = expense.date_added.strftime('%Y-%m-%d | %H:%M')
+    return render_template('index.html', allexpense = allexpense)
 
 
-
-
-
+@app.route('/delete/<int:var>', methods=['GET', 'POST'])
+def delete(var):
+    expense = Expense.query.filter_by(sn=var).first()
+    if expense:
+        db.session.delete(expense)
+        db.session.commit()
+    return redirect('/')
 
 
 if __name__ == '__main__':

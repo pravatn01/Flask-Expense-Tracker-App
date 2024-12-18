@@ -10,14 +10,18 @@
 </head>
 
 <body>
-    <form>
+    <form action="/" method="post">
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="text" class="form-control" id="exampleInputEmail1">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" class="form-control" name="category">
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="text" class="form-control" id="exampleInputPassword1">
+            <label for="desc" class="form-label">Description</label>
+            <input type="text" class="form-control" name="desc">
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" class="form-control" name="amount">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -25,30 +29,28 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">S.N</th>
+                <th scope="col">Category</th>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date Added</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
+            {% for expense in allexpense %}
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{expense.category}}</td>
+                <td>{{expense.desc}}</td>
+                <td>{{expense.amount}}</td>
+                <td>{{expense.date_added}}</td>
+                <td>
+                    <a href="/edit/{{expense.sn}}" type="button" class="btn btn-primary">Edit</a>
+                    <a href="/delete/{{expense.sn}}" type="button" class="btn btn-primary">Delete</a>
+                </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </body>
