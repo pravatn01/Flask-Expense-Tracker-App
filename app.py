@@ -34,6 +34,20 @@ def index():
         expense.date_added = expense.date_added.strftime('%Y-%m-%d | %H:%M')
     return render_template('index.html', allexpense = allexpense)
 
+@app.route('/edit/<int:var>', methods=['GET','POST'])
+def edit(var):
+    if request.method == 'POST':
+        expense = Expense.query.filter_by(sn = var).first()
+        expense.category = request.form['category']
+        expense.desc = request.form['desc']
+        expense.amount = request.form['amount']
+        db.session.add(expense)
+        db.session.commit()
+        return redirect('/')
+
+    expense = Expense.query.filter_by(sn = var).first()
+    return render_template('edit.html', expense = expense)
+
 
 @app.route('/delete/<int:var>', methods=['GET', 'POST'])
 def delete(var):

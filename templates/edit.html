@@ -10,18 +10,18 @@
 </head>
 
 <body>
-    <form action="/edit/{{expense.id}}" method="post">
+    <form action="/edit/{{expense.sn}}" method="post">
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" name="category">
+            <input type="text" class="form-control" name="category" value="{{expense.category}}">
         </div>
         <div class="mb-3">
             <label for="desc" class="form-label">Description</label>
-            <input type="text" class="form-control" name="desc">
+            <input type="text" class="form-control" name="desc" value="{{expense.desc}}">
         </div>
         <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
-            <input type="number" class="form-control" name="amount">
+            <input type="number" class="form-control" name="amount" value="{{expense.amount}}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
