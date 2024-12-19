@@ -1,30 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-
-<body>
-    <form action="/edit/{{expense.id}}" method="post">
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" name="category">
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Edit Expense</h3>
         </div>
-        <div class="mb-3">
-            <label for="desc" class="form-label">Description</label>
-            <input type="text" class="form-control" name="desc">
+        <div class="card-body">
+            <form action="/edit/{{ expense.sn }}" method="post">
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-control" name="category" required>
+                        <option value="" disabled>Select a category</option>
+                        <option value="Food" {% if expense.category=='Food' %}selected{% endif %}>Food</option>
+                        <option value="Travel" {% if expense.category=='Travel' %}selected{% endif %}>Travel</option>
+                        <option value="Entertainment" {% if expense.category=='Entertainment' %}selected{% endif %}>
+                            Entertainment</option>
+                        <option value="Utilities" {% if expense.category=='Utilities' %}selected{% endif %}>Utilities
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="desc" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="desc" value="{{ expense.desc }}"
+                        placeholder="E.g., Lunch at a restaurant" maxlength="100" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" name="amount" value="{{ expense.amount }}"
+                        placeholder="E.g., 150" step="0.01" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Update Expense</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="amount" class="form-label">Amount</label>
-            <input type="number" class="form-control" name="amount">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</body>
-
-</html>
+    </div>
+</div>
+{% endblock content %}

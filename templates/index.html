@@ -1,58 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-
-<body>
-    <form action="/" method="post">
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" name="category">
+{% extends 'base.html' %}
+{% block content %}
+<div class="heading">
+    <h1>Expense Tracker</h1>
+</div>
+<div class="container my-4">
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Add New Expense</h3>
         </div>
-        <div class="mb-3">
-            <label for="desc" class="form-label">Description</label>
-            <input type="text" class="form-control" name="desc">
-        </div>
-        <div class="mb-3">
-            <label for="amount" class="form-label">Amount</label>
-            <input type="number" class="form-control" name="amount">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <hr>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">S.N</th>
-                <th scope="col">Category</th>
-                <th scope="col">Description</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Date Added</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for expense in allexpense %}
-            <tr>
-                <th scope="row">{{loop.index}}</th>
-                <td>{{expense.category}}</td>
-                <td>{{expense.desc}}</td>
-                <td>{{expense.amount}}</td>
-                <td>{{expense.date_added}}</td>
-                <td>
-                    <a href="/edit/{{expense.sn}}" type="button" class="btn btn-primary">Edit</a>
-                    <a href="/delete/{{expense.sn}}" type="button" class="btn btn-primary">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+        <div class="card-body">
+            <form action="/" method="post">
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-control" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Utilities">Utilities</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="desc" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="desc" placeholder="E.g., Lunch at a restaurant"
+                        maxlength="100" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" name="amount" placeholder="E.g., 150" step="0.01" min="0"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Add Expense</button>
+            </form>
 
-</html>
+        </div>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Expense List</h3>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover table-bordered text-center m-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date Added</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in allexpense %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.desc }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.date_added.strftime('%Y-%m-%d | %H:%M') }}</td>
+                        <td>
+                            <a href="/edit/{{ expense.sn }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="/delete/{{ expense.sn }}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
