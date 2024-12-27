@@ -37,20 +37,21 @@ def index():
 
     return render_template('index.html', allexpense=allexpense)
 
-
-@app.route('/edit/<int:var>', methods=['GET','POST'])
+@app.route('/edit/<int:var>', methods=['GET', 'POST'])
 def edit(var):
     if request.method == 'POST':
-        expense = Expense.query.filter_by(sn = var).first()
+        expense = Expense.query.filter_by(sn=var).first()
         expense.category = request.form['category']
         expense.desc = request.form['desc']
         expense.amount = request.form['amount']
+        expense.date_added = datetime.now(pytz.utc)
+
         db.session.add(expense)
         db.session.commit()
         return redirect('/')
 
-    expense = Expense.query.filter_by(sn = var).first()
-    return render_template('edit.html', expense = expense)
+    expense = Expense.query.filter_by(sn=var).first()
+    return render_template('edit.html', expense=expense)
 
 @app.route('/delete/<int:var>', methods=['GET', 'POST'])
 def delete(var):
