@@ -15,7 +15,7 @@ class Expense(db.Model):
     category = db.Column(db.String(50), nullable=False)
     desc = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    date_added = db.Column(db.DateTime, default=datetime.now(pytz.utc))  # Use pytz.utc
+    date_added = db.Column(db.DateTime, default=datetime.now(pytz.utc))
 
     def __init__(self, category, desc, amount):
         self.category = category
