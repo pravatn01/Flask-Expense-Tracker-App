@@ -2,7 +2,7 @@
 
 A simple web application designed to track and manage your daily expenses. This app allows users to add, edit, and delete expenses, as well as view them in a categorized list. It's a great way to monitor your spending habits and stay on top of your finances.
 
-**Live Demo**: [Expense Tracker](https://flask-finance-tracker-app.onrender.com)
+**Live Demo**: [Expense Tracker](https://flask-expense-tracker-app.onrender.com)
 
 ## Features
 
